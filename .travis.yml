@@ -2,10 +2,7 @@ sudo: required
 
 language: php
 php:
-  - '7.1.7'
-
-# services:
-#   - docker
+  - '7.1.9'
 
 branches:
   only:
@@ -13,7 +10,18 @@ branches:
 
 # travis runtime environment from here or settings. : https://docs.travis-ci.com/user/environment-variables/
 env:
-  - ZIP_FILE="web-$TRAVIS_BUILD_NUMBER-$TRAVIS_COMMIT.zip"
+  global:
+    - ZIP_FILE="on-premises-$TRAVIS_BUILD_NUMBER-$TRAVIS_COMMIT.zip"
+#    - AWS_ACCESS_KEY_ID=""
+    - secure: "05mhooDwO3zx8JWyawfleZrdxGXZ76ZFg7PELmiN7DKzZ1BGvFtcZ1F7x9MHLL5q0shsfFSf58cnBy9tdkxBrWy/cYW0UVQvfeTC5TpkiL36ysNY7U1D5yzETuBdu0cBoMMt0O3+m0Uwq4+JOV6t2InXNVpF5vmXBbnn4va8RQkwyqeDcWkC+iFEJt++4ZMEi2WKq3o9NbIzlV0cmnf8WWRYXmoTCkapG+j4mn0TTtjP2yTMmDfuCerIj0axBT6+nwahaYX78MjV5ML2I6UMTv8nxwpZ/aEtLdKoyr9twEG7/T5cyAEpEphcon2cBd1OXTp9J6Bgl8nspMiflIb+fXcmsU2/sKAOdZnq6zoGnRw5stXaXRrYXWQ15yYdX5RdCqqRSmhpZN9Skm/qRU4nSSwt/jkj+fGPeU2e7NgcwnPKPO0G3W2PpWH0y8jGKRpiArSgTW+NoWCPQEFIWfe7nAHTmDN6nhWmM0B+ynZvFhpF+hYWOImTlh/YpCE7sE2o2NSUL2NhdqVbTW5vU38e5Junqmhm1/gJ222deocDg89InvyujMCC7Vc1KeU7vBi3YjwRdc3ZkIxp1IqUUj7VPCokK11I4BpIEz5X3Pw4ZC1u9ifxvwV9Uc53nke/kxbF6kTfnDleXva+f+SPrxp/529dHvqbVqotkr9rwtheUu8="
+    #    - AWS_SECRET_ACCESS_KEY=""
+    - secure: "uVTQZPHpy0AasCoFrHNCYkxzKcf8LbtWLPu6+37QEX0k8viYEYE/Ecdbl386MTZWYJYfHEP6IKgCdcafe50EaJ7aXMCy3o1unGN47lA2hwcXeTWJlSeaMNSLasZ4uO6ZscIJo0EuP7RNWufZ0FewHBRio4amgSLg5N9ZqBJUrDboUXX/7UTSnZ0nVNapq73CLvnmbzTmf9hY86hTK8Som6zG6RI9VSDtVAla3hcnvwTafzPAFZmiOlJuZIBNzvgtisRmmH5RXFs+7/pqRL5O7GknuaezFUUxEsKSdGAC5d+Nkhl4wRaW2CC49Zr8S4uar3uN8wXy3xQVWBY5O5YJKR7DbrMnwVdLCOcJ7w8nUUwztJ5uKhRzG2lonl48AWFJ3mn5eDhk2QeNijezJX04VopU3XNaSD3jT7SyYY065iJC9sAlVFpMZr0W3+juTfHzSTs8rOb8YV+T8C2HphRc8Xo8nOWGmwtTKssC96KE0yt5vpNbMMeDlrULbk6C5hU2E4AnBTtB6EiEl6n67vS3rCiMLOBhHsQTwGHsYzrwb/dGd2w0rITfIuwt0mitT2hdmkSqPpIZH6BapTNwftbTThRjlc0KWFBlbS7mLOnxC48Ezn67/grlq58rCxbDYFnboyKzEALOmKqYLkgjLGwmP0jtkHbpQ+ukkQECQHCETIU="
+    - AWS_REGION="ap-northeast-1"
+    - CODEDEPLOY_APP="demo"
+    - CODEDEPLOY_GROUP="on-premises"
+    - S3_BUCKET="noah-deploy"
+    - S3_FOLDER="on-premises"
+
 
 # notification - https://docs.travis-ci.com/user/notifications
 # notifications:
@@ -27,6 +35,9 @@ notifications:
   email:
     on_failure: always
     on_success: never
+    slack:
+      secure: "YwMIX4EzKTOJBUgMrtqR5FkjseLClkSc/2vPY3cl52mX668AnxrrQzs4npfWHuX2ZzvhJRPl1BJYXtE/aR9juGip7CvQ0Wmx+3Sr3cKXEeejcMls2XepXuEnP/o1RpnTstus9W7Z4ZNJygp7hgacZNL/rZEIhWHBcSwusocAqtxIZPVfPG1SvHGUKmXNzr+nWLGoigqOZSB8JCuZx5tDLkt49Q4seLelw+w7m46i6mv88tB5HQBE9GSN/QHYFV0zod6XWFk40a5uVmEzbOMhZlxEplaeu/kYMkTBBq/k5aGvKjxwuOarrQApMyXjVtrxwvF5bJmIlPu3VOFDL40TLE7nwTzRnKMxACoDZZzCRVpIbRdgV5AbCfHR2sFxIuvv8tr7JytSv3v1oM5YtdjAJMS7Wsb//l54xzGDG9/9l9T0ta4Jcemly8XD1oXpbmwnW1L+0RCAz3XmyV/FtDO2Q8Zvk0En+RaFl8i+jm2PT9C+Y8RRrBB61MgCLyfG7VZvbankBsCdw2kZiREBp2fHhl9+ilg5Z/gyzY7KpjmkbDciBc4rkcjjyWEhTqcTbJXczt2sHbKiW8HhFKMFwVtoc+5YoywuRvYRIOUTtQTc/kSCzEZ4qpYvMq5jK3DXQ+b32flWakXHzuhqzMP0qfI1MpRbLMK+QmuaWRyEW0OsmWo="
+
   # slack:
   #   rooms:
   #     - ${SLACK_ACCOUNT}:${SLACK_TOKEN}#${SLACK_CHANNEL}"
@@ -70,25 +81,25 @@ before_deploy:
 
 deploy:
   - provider: S3
-    # access_key_id: &aws_access_key $AWS_ACCESS_KEY_ID
-    # secret_access_key: &aws_secret_key
-    #   secure: $AWS_SECRET_ACCESS_KEY
-    access_key_id: "$AWS_ACCESS_KEY_ID"
-    secret_access_key: "$AWS_SECRET_ACCESS_KEY"
-    region: "$AWS_DEFAULT_REGION"
+    access_key_id: &aws_access_key $AWS_ACCESS_KEY_ID
+    secret_access_key: &aws_secret_key
+      secure: $AWS_SECRET_ACCESS_KEY
+#    access_key_id: "$AWS_ACCESS_KEY_ID"
+#    secret_access_key: "$AWS_SECRET_ACCESS_KEY"
+    region: "$AWS_REGION"
     local_dir: "$TRAVIS_BUILD_DIR/zip"
     bucket: "$S3_BUCKET"
-    # upload-dir: "$S3_FOLDER"
+    upload-dir: "$S3_FOLDER"
     skip_cleanup: true
     on:
       all_branches: true
 
   - provider: codedeploy
-    # access_key_id: *aws_access_key
-    # secret_access_key: *aws_secret_key
-    access_key_id: "$AWS_ACCESS_KEY_ID"
-    secret_access_key: "$AWS_SECRET_ACCESS_KEY"
-    region: "$AWS_DEFAULT_REGION"
+    access_key_id: *aws_access_key
+    secret_access_key: *aws_secret_key
+#    access_key_id: "$AWS_ACCESS_KEY_ID"
+#    secret_access_key: "$AWS_SECRET_ACCESS_KEY"
+    region: "$AWS_REGION"
     bucket: "$S3_BUCKET"
     # key: "$S3_FOLDER/$ZIP_FILE"
     key: "$ZIP_FILE"
